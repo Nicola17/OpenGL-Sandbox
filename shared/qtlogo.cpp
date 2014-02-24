@@ -48,13 +48,12 @@
 
 static const qreal tee_height = 0.311126;
 static const qreal cross_width = 0.25;
-static const qreal bar_thickness = 0.113137;
+static const qreal bar_thickness = 0.20;
 static const qreal inside_diam = 0.20;
-static const qreal outside_diam = 0.30;
+static const qreal outside_diam = 0.60;
 static const qreal logo_depth = 0.10;
 static const int num_divisions = 32;
 
-//! [0]
 struct Geometry
 {
     QVector<GLushort> faces;
@@ -65,9 +64,6 @@ struct Geometry
     void finalize();
     void loadArrays() const;
 };
-//! [0]
-
-//! [1]
 class Patch
 {
 public:
@@ -350,24 +346,27 @@ void QtLogo::setColor(QColor c)
 //! [3]
 void QtLogo::buildGeometry(int divisions, qreal scale)
 {
+    /*
     qreal cw = cross_width * scale;
     qreal bt = bar_thickness * scale;
     qreal ld = logo_depth * scale;
     qreal th = tee_height *scale;
+    */
+    //RectPrism cross(geom, 0.5, bt, ld);
+    //RectPrism stem(geom, bt, th, ld);
 
-    RectPrism cross(geom, cw, bt, ld);
-    RectPrism stem(geom, bt, th, ld);
+    //QVector3D z(0.0, 0.0, 1.0);
+    //cross.rotate(45.0, z);
+    //stem.rotate(45.0, z);
 
-    QVector3D z(0.0, 0.0, 1.0);
-    cross.rotate(45.0, z);
-    stem.rotate(45.0, z);
+    //qreal stem_downshift = (th + bt) / 2.0;
+    //stem.translate(QVector3D(0.0, -stem_downshift, 0.0));
 
-    qreal stem_downshift = (th + bt) / 2.0;
-    stem.translate(QVector3D(0.0, -stem_downshift, 0.0));
+    RectTorus torus1(geom, 0.10, 0.20, 0.1, divisions);
+    RectTorus torus2(geom, 0.30, 0.40, 0.1, divisions);
 
-    RectTorus body(geom, 0.20, 0.30, 0.1, divisions);
-
-    parts << stem.parts << cross.parts << body.parts;
+    //parts << stem.parts << cross.parts << body.parts << body2.parts;
+    parts << torus1.parts << torus2.parts;
 
     geom->finalize();
 }
