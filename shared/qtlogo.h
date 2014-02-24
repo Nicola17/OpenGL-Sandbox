@@ -38,22 +38,29 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
-#include <QDesktopWidget>
+#ifndef QTLOGO_H
+#define QTLOGO_H
 
-#include "window.h"
+#include <QObject>
+#include <QColor>
 
-int main(int argc, char *argv[])
+class Patch;
+struct Geometry;
+
+//! [0]
+class QtLogo : public QObject
 {
-    QApplication app(argc, argv);
-    Window window;
-    window.resize(window.sizeHint());
-    int desktopArea = QApplication::desktop()->width() *
-                     QApplication::desktop()->height();
-    int widgetArea = window.width() * window.height();
-    if (((float)widgetArea / (float)desktopArea) < 0.75f)
-        window.show();
-    else
-        window.showMaximized();
-    return app.exec();
-}
+public:
+    explicit QtLogo(QObject *parent, int d = 64, qreal s = 1.0);
+    ~QtLogo();
+    void setColor(QColor c);
+    void draw() const;
+private:
+    void buildGeometry(int d, qreal s);
+
+    QList<Patch *> parts;
+    Geometry *geom;
+};
+//! [0]
+
+#endif // QTLOGO_H

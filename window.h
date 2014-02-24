@@ -38,22 +38,35 @@
 **
 ****************************************************************************/
 
-#include <QApplication>
-#include <QDesktopWidget>
+#ifndef WINDOW_H
+#define WINDOW_H
 
-#include "window.h"
+#include <QWidget>
 
-int main(int argc, char *argv[])
+QT_BEGIN_NAMESPACE
+class QSlider;
+QT_END_NAMESPACE
+//! [0]
+class GLWidget;
+
+class Window : public QWidget
 {
-    QApplication app(argc, argv);
-    Window window;
-    window.resize(window.sizeHint());
-    int desktopArea = QApplication::desktop()->width() *
-                     QApplication::desktop()->height();
-    int widgetArea = window.width() * window.height();
-    if (((float)widgetArea / (float)desktopArea) < 0.75f)
-        window.show();
-    else
-        window.showMaximized();
-    return app.exec();
-}
+    Q_OBJECT
+
+public:
+    Window();
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
+private:
+    QSlider *createSlider();
+
+    GLWidget *glWidget;
+    QSlider *xSlider;
+    QSlider *ySlider;
+    QSlider *zSlider;
+};
+//! [0]
+
+#endif
