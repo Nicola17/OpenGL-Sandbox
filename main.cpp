@@ -42,10 +42,12 @@
 #include <QDesktopWidget>
 
 #include "window.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+/*
     Window window;
     window.resize(window.sizeHint());
     int desktopArea = QApplication::desktop()->width() *
@@ -55,5 +57,9 @@ int main(int argc, char *argv[])
         window.show();
     else
         window.showMaximized();
+*/
+
+    MainWindow window;
+    window.show();
     return app.exec();
 }

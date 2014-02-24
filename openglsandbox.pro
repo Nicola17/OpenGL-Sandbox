@@ -3,15 +3,17 @@ INCLUDEPATH += shared
 
 HEADERS       = glwidget.h \
                 window.h \
-                qtlogo.h
+                qtlogo.h \
+                mainwindow.h
 SOURCES       = glwidget.cpp \
                 main.cpp \
                 window.cpp \
-                qtlogo.cpp
+                qtlogo.cpp \
+                mainwindow.cpp
 QT           += opengl widgets
 
 # install
-target.path = $$[QT_INSTALL_EXAMPLES]/opengl/hellogl
+target.path = ./
 INSTALLS += target
 
 
@@ -22,3 +24,6 @@ contains(QT_CONFIG, opengles.) {
         warning("Qt was built with ANGLE, which provides only OpenGL ES 2.0 on top of DirectX 9.0c")
     error("This example requires Qt to be configured with -opengl desktop")
 }
+
+FORMS += \
+    mainwindow.ui
