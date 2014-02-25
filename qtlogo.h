@@ -43,18 +43,19 @@
 
 #include <QObject>
 #include <QColor>
+#include "drawableintrfc.h"
 
 class Patch;
 struct Geometry;
 
 //! [0]
-class QtLogo : public QObject
+class QtLogo : public QObject, public DrawableIntrfc
 {
 public:
     explicit QtLogo(QObject *parent, int d = 64, qreal s = 1.0);
-    ~QtLogo();
+    virtual ~QtLogo();
     void setColor(QColor c);
-    void draw() const;
+    virtual void draw() const;
 private:
     void buildGeometry(int d, qreal s);
 

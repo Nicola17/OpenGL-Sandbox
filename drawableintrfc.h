@@ -4,7 +4,7 @@
 class DrawableIntrfc{
 public:
     ~DrawableIntrfc(){}
-    virtual void draw()=0;
-}
+    virtual void draw()const=0;
+};
 
 #endif // DRAWABLEINTRFC_H
