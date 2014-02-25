@@ -42,6 +42,7 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include "drawableintrfc.h"
 
 class QtLogo;
 
@@ -74,7 +75,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    QtLogo *logo;
+    DrawableIntrfc* _drawableObject;
     int xRot;
     int yRot;
     int zRot;

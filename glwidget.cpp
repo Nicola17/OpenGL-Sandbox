@@ -51,16 +51,16 @@
 #endif
 
 
-GLWidget::GLWidget(QWidget *parent)
-    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+GLWidget::GLWidget(QWidget *parent):
+    QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
+    _drawableObject(nullptr)
 {
-    logo = 0;
     xRot = 0;
     yRot = 0;
     zRot = 0;
 
-    qtGreen = QColor::fromCmykF(0.0, 0.6, 1.0, 0.2);
-    qtPurple = QColor::fromCmykF(1, 0.6, 0.0, 0.5);
+    qtGreen = QColor::fromCmykF(0.0, 0.6, 1.0, 0.0);
+    qtPurple = QColor::fromCmykF(1, 0.6, 0.0, 0.0);
 }
 
 GLWidget::~GLWidget()
@@ -119,9 +119,6 @@ void GLWidget::initializeGL()
 {
     qglClearColor(qtPurple.dark());
 
-    logo = new QtLogo(this, 64);
-    logo->setColor(qtGreen.dark());
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
@@ -139,7 +136,8 @@ void GLWidget::paintGL()
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
-    logo->draw();
+    if(_drawableObject!=nullptr)
+        _drawableObject->draw();
 }
 void GLWidget::resizeGL(int width, int height)
 {
