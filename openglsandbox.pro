@@ -4,7 +4,8 @@ INCLUDEPATH += shared
 HEADERS       = glwidget.h \
                 window.h \
                 qtlogo.h \
-                mainwindow.h
+                mainwindow.h \
+    drawableintrfc.h
 SOURCES       = glwidget.cpp \
                 main.cpp \
                 window.cpp \
