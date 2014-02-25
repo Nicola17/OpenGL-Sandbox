@@ -77,7 +77,12 @@ QSize GLWidget::sizeHint() const
     return QSize(400, 400);
 }
 
-
+void GLWidget::setDrawableObject(DrawableIntrfc* d){
+    _drawableObject = d;
+}
+void GLWidget::forceRepaint(){
+    updateGL();
+}
 static void qNormalizeAngle(int &angle)
 {
     while (angle < 0)

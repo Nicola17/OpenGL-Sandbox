@@ -57,6 +57,9 @@ public:
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
 
+    void setDrawableObject(DrawableIntrfc* d);
+    void forceRepaint();
+
 public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);

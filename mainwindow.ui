@@ -30,6 +30,16 @@
      <item row="0" column="0">
       <layout class="QHBoxLayout" name="_openglLayout"/>
      </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="_logoBtn">
+       <property name="text">
+        <string>Logo</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QPlainTextEdit" name="_logPTE">
