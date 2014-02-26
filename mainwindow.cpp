@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->_logPTE->appendPlainText("Hello world\n");
     ui->_openglLayout->addWidget(_glWidget);
-
     QObject::connect(ui->_logoBtn,SIGNAL(toggled(bool)),this,SLOT(onLogoToggled(bool)));
 }
 
