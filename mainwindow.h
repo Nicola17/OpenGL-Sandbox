@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "qtlogo.h"
+#include "Drawables/qtlogo.h"
 
 class GLWidget;
 

@@ -42,7 +42,7 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
-#include "drawableintrfc.h"
+#include "Drawables/drawableintrfc.h"
 
 class QtLogo;
 

@@ -44,7 +44,7 @@
 #include <math.h>
 
 #include "glwidget.h"
-#include "qtlogo.h"
+#include "Drawables/qtlogo.h"
 
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D
