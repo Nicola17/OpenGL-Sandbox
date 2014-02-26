@@ -29,7 +29,14 @@ void MainWindow::onLogoToggled(bool v){
         _glWidget->forceRepaint();
     }else{
         ui->_logPTE->appendPlainText("Hide logo\n");
-        _glWidget->setDrawableObject(nullptr);
+        //_glWidget->setDrawableObject(nullptr);
+        _glWidget->setDrawableObject(&_triangleSoup);
+        _triangleSoup.addTriangle(TriangleSoup::vector_type(0.5,0,0),
+                                  TriangleSoup::vector_type(0,0,0.5),
+                                  TriangleSoup::vector_type(0,0.5,0));
+        _triangleSoup.addTriangle(TriangleSoup::vector_type(0,0,-0.5),
+                                  TriangleSoup::vector_type(0.5,0,0),
+                                  TriangleSoup::vector_type(0,0.5,0));
         _glWidget->forceRepaint();
     }
 }

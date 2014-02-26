@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Drawables/qtlogo.h"
+#include "Drawables/trianglesoup.h"
 
 class GLWidget;
 
@@ -25,6 +26,7 @@ private:
     Ui::MainWindow* ui;
     GLWidget*       _glWidget;
     QtLogo*         _logo;
+    TriangleSoup    _triangleSoup;
 };
 
 #endif // MAINWINDOW_H
