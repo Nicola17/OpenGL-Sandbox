@@ -8,13 +8,15 @@ HEADERS       = glwidget.h \
     drawableintrfc.h \
     Drawables/trianglesoup.h \
     Drawables/qtlogo.h \
-    Drawables/drawableintrfc.h
+    Drawables/drawableintrfc.h \
+    trianglesoupimporters.h
 SOURCES       = glwidget.cpp \
                 main.cpp \
                 window.cpp \
                 mainwindow.cpp \
     Drawables/trianglesoup.cpp \
-    Drawables/qtlogo.cpp
+    Drawables/qtlogo.cpp \
+    trianglesoupimporters.cpp
 QT           += opengl widgets
 
 # install
