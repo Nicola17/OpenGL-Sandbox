@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QtWidgets>
 #include <QMessageBox>
+#include <QColorDialog>
 
 #include "glwidget.h"
 #include "trianglesoupimporters.h"
@@ -36,36 +37,9 @@ void MainWindow::signalConnection(){
     QObject::connect(ui->_userChBx,SIGNAL(toggled(bool)),this,SLOT(onUserTriangleSoupToggled(bool)));
     QObject::connect(ui->_userPCChBx,SIGNAL(toggled(bool)),this,SLOT(onUserPCToggled(bool)));
     QObject::connect(ui->_clearLogBtn,SIGNAL(clicked()),this,SLOT(onClearLog()));
+
+    QObject::connect(ui->_bgColorBtn,SIGNAL(clicked()),this,SLOT(onChangeBGColor()));
 }
-
-/*
-void MainWindow::onTeapotToggled(bool v){
-    if(v){
-        ui->_logPTE->appendPlainText("Show logo\n");
-        _glWidget->addDrawableObject(_logo);
-        _glWidget->removeDrawableObject(&_triangleSoup);
-        _glWidget->forceRepaint();
-    }else{
-        ui->_logPTE->appendPlainText("Hide logo\n");
-        //_glWidget->setDrawableObject(nullptr);
-        ui->_logPTE->appendPlainText("Load data\n");
-
-        _glWidget->addDrawableObject(&_triangleSoup);
-
-        IO::TriangleSoupImporters::read("F:\\Development\\OpenGLSandbox\\sources\\teapot.obj",_triangleSoup);
-        ui->_logPTE->appendPlainText("done\n");
-
-        _triangleSoup.addTriangle(TriangleSoup::vector_type(0.5,0,0),
-                                  TriangleSoup::vector_type(0,0,0.5),
-                                  TriangleSoup::vector_type(0,0.5,0));
-        _triangleSoup.addTriangle(TriangleSoup::vector_type(0,0,-0.5),
-                                  TriangleSoup::vector_type(0.5,0,0),
-                                  TriangleSoup::vector_type(0,0.5,0));
-
-        _glWidget->forceRepaint();
-    }
-}
-*/
 
 void MainWindow::loadData(){
     _bullseyeTS = new QtLogo(this);
@@ -168,4 +142,15 @@ void MainWindow::onUserPCToggled(bool v){}
 
 void MainWindow::onClearLog(){
     _log.clear();
+}
+
+void MainWindow::onChangeBGColor(){
+    try{
+        _log.display("Change BG color");
+        _bgColor = QColorDialog::getColor(_bgColor, this);
+        _glWidget->setBackgroundColor(_bgColor);
+        _glWidget->forceRepaint();
+    }
+    catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+    catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
 }

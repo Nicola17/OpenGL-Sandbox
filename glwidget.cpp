@@ -52,14 +52,12 @@
 
 
 GLWidget::GLWidget(QWidget *parent):
-    QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+    QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
+    _bgColor(qRgb(112,128,144))
 {
     xRot = 0;
     yRot = 0;
     zRot = 0;
-
-    qtGreen = QColor::fromCmykF(0.0, 0.6, 1.0, 0.0);
-    qtPurple = QColor::fromCmykF(1, 0.6, 0.0, 0.0);
 }
 
 GLWidget::~GLWidget()
@@ -94,6 +92,11 @@ void GLWidget::clear(){
 
 void GLWidget::forceRepaint(){
     updateGL();
+}
+
+void GLWidget::setBackgroundColor(QColor bgColor){
+    _bgColor = bgColor;
+    qglClearColor(_bgColor);
 }
 static void qNormalizeAngle(int &angle)
 {
@@ -134,7 +137,7 @@ void GLWidget::setZRotation(int angle)
 }
 void GLWidget::initializeGL()
 {
-    qglClearColor(qtPurple.dark());
+    qglClearColor(_bgColor);
 
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);

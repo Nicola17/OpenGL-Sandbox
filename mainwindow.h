@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QColor>
 #include "Drawables/qtlogo.h"
 #include "Drawables/trianglesoup.h"
 #include "Utils/ptelog.h"
@@ -34,6 +35,7 @@ public slots:
     void onUserPCToggled(bool v);
 
     void onClearLog();
+    void onChangeBGColor();
 
 private:
     Ui::MainWindow* ui;
@@ -47,6 +49,8 @@ private:
     TriangleSoup    _dragonTS;
     TriangleSoup    _teapotTS;
     TriangleSoup    _userTS;
+
+    QColor          _bgColor;
 };
 
 #endif // MAINWINDOW_H

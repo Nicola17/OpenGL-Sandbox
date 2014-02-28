@@ -61,6 +61,7 @@ public:
     void removeDrawableObject(const DrawableIntrfc* d);
     void clear();
     void forceRepaint();
+    void setBackgroundColor(QColor bgColor);
 
 public slots:
     void setXRotation(int angle);
@@ -85,8 +86,7 @@ private:
     int yRot;
     int zRot;
     QPoint lastPos;
-    QColor qtGreen;
-    QColor qtPurple;
+    QColor _bgColor;
 };
 
 #endif
