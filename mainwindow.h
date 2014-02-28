@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "Drawables/qtlogo.h"
 #include "Drawables/trianglesoup.h"
+#include "Utils/ptelog.h"
 
 class GLWidget;
 
@@ -24,6 +25,8 @@ public slots:
 
 private:
     Ui::MainWindow* ui;
+
+    PTELog          _log;
     GLWidget*       _glWidget;
     QtLogo*         _logo;
     TriangleSoup    _triangleSoup;

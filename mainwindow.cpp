@@ -13,9 +13,12 @@ MainWindow::MainWindow(QWidget *parent) :
     _glWidget = new GLWidget;
     _logo = new QtLogo(this);
 
-    ui->_logPTE->appendPlainText("Hello world\n");
+    _log.connectPTE(ui->_logPTE);
+    _log.display("OpenGL Sandbox");
     ui->_openglLayout->addWidget(_glWidget);
-    QObject::connect(ui->_logoBtn,SIGNAL(toggled(bool)),this,SLOT(onLogoToggled(bool)));
+    //QObject::connect(ui->_logoBtn,SIGNAL(toggled(bool)),this,SLOT(onLogoToggled(bool)));
+
+
 }
 
 MainWindow::~MainWindow()
