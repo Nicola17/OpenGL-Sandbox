@@ -9,6 +9,9 @@ TriangleSoup::TriangleSoup()
 }
 
 void TriangleSoup::draw()const{
+    if(_normals.size()==0 || _vertices.size() == 0)
+        return;
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
