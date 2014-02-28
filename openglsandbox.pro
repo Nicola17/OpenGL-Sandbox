@@ -9,7 +9,8 @@ HEADERS       = glwidget.h \
     Drawables/trianglesoup.h \
     Drawables/qtlogo.h \
     Drawables/drawableintrfc.h \
-    trianglesoupimporters.h
+    trianglesoupimporters.h \
+    Utils/abstractlog.h
 SOURCES       = glwidget.cpp \
                 main.cpp \
                 window.cpp \
