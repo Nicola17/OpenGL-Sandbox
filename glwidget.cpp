@@ -52,8 +52,7 @@
 
 
 GLWidget::GLWidget(QWidget *parent):
-    QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-    _drawableObject(nullptr)
+    QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 {
     xRot = 0;
     yRot = 0;
@@ -77,9 +76,22 @@ QSize GLWidget::sizeHint() const
     return QSize(400, 400);
 }
 
-void GLWidget::setDrawableObject(DrawableIntrfc* d){
-    _drawableObject = d;
+void GLWidget::addDrawableObject(const DrawableIntrfc* d){
+    auto it = std::find(_drawableObjects.begin(),_drawableObjects.end(),d);
+    if(it == _drawableObjects.end())
+        _drawableObjects.push_back(d);
 }
+
+void GLWidget::removeDrawableObject(const DrawableIntrfc* d){
+    auto it = std::find(_drawableObjects.begin(),_drawableObjects.end(),d);
+    if(it != _drawableObjects.end())
+        _drawableObjects.erase(it);
+}
+
+void GLWidget::clear(){
+    _drawableObjects.clear();
+}
+
 void GLWidget::forceRepaint(){
     updateGL();
 }
@@ -141,8 +153,8 @@ void GLWidget::paintGL()
     glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
-    if(_drawableObject!=nullptr)
-        _drawableObject->draw();
+    for(auto dr: _drawableObjects)
+        dr->draw();
 }
 void GLWidget::resizeGL(int width, int height)
 {
@@ -151,11 +163,7 @@ void GLWidget::resizeGL(int width, int height)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-#ifdef QT_OPENGL_ES_1
-    glOrthof(-0.5, +0.5, -0.5, +0.5, 4.0, 15.0);
-#else
-    glOrtho(-0.5, +0.5, -0.5, +0.5, 4.0, 15.0);
-#endif
+    glOrtho(-1., +1., -1., +1., 4.0, 15.0);
     glMatrixMode(GL_MODELVIEW);
 }
 

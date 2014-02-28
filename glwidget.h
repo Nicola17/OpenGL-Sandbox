@@ -57,7 +57,9 @@ public:
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
 
-    void setDrawableObject(DrawableIntrfc* d);
+    void addDrawableObject(const DrawableIntrfc* d);
+    void removeDrawableObject(const DrawableIntrfc* d);
+    void clear();
     void forceRepaint();
 
 public slots:
@@ -78,7 +80,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    DrawableIntrfc* _drawableObject;
+    std::vector<const DrawableIntrfc*>_drawableObjects;
     int xRot;
     int yRot;
     int zRot;

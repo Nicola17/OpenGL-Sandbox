@@ -26,14 +26,15 @@ MainWindow::~MainWindow()
 void MainWindow::onLogoToggled(bool v){
     if(v){
         ui->_logPTE->appendPlainText("Show logo\n");
-        _glWidget->setDrawableObject(_logo);
+        _glWidget->addDrawableObject(_logo);
+        _glWidget->removeDrawableObject(&_triangleSoup);
         _glWidget->forceRepaint();
     }else{
         ui->_logPTE->appendPlainText("Hide logo\n");
         //_glWidget->setDrawableObject(nullptr);
         ui->_logPTE->appendPlainText("Load data\n");
 
-        _glWidget->setDrawableObject(&_triangleSoup);
+        _glWidget->addDrawableObject(&_triangleSoup);
 
         IO::TriangleSoupImporters::read("F:\\Development\\OpenGLSandbox\\sources\\teapot.obj",_triangleSoup);
         ui->_logPTE->appendPlainText("done\n");

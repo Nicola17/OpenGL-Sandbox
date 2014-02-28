@@ -39,9 +39,9 @@ namespace IO
                     //TODO
                     normalIdx.push_back(subTokens[2].toUInt());
                 }
-                //triSoup.addTriangle(vertices[vertexIdx[0]-1],vertices[vertexIdx[1]-1],vertices[vertexIdx[2]-1]);
-                triSoup.addTriangle(vertices[vertexIdx[0]-1],vertices[vertexIdx[1]-1],vertices[vertexIdx[2]-1],
-                                    normals[normalIdx[0]-1],normals[normalIdx[1]-1],normals[normalIdx[2]-1]);
+                triSoup.addTriangle(vertices[vertexIdx[0]-1],vertices[vertexIdx[1]-1],vertices[vertexIdx[2]-1]);
+                //triSoup.addTriangle(vertices[vertexIdx[0]-1],vertices[vertexIdx[1]-1],vertices[vertexIdx[2]-1],
+                  //                  normals[normalIdx[0]-1],normals[normalIdx[1]-1],normals[normalIdx[2]-1]);
             }
 
         }
