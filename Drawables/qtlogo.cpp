@@ -155,7 +155,7 @@ Patch::Patch(Geometry *g)
    , sm(Patch::Smooth)
    , geom(g)
 {
-    qSetColor(faceColor, QColor(Qt::darkGray));
+    qSetColor(faceColor, QColor(Qt::darkRed));
 }
 
 void Patch::rotate(qreal deg, QVector3D axis)
@@ -379,7 +379,6 @@ void QtLogo::draw() const
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-
     for (int i = 0; i < parts.count(); ++i)
         parts[i]->draw();
 
