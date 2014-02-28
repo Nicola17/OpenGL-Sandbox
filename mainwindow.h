@@ -19,17 +19,34 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void signalConnection();
+    void loadData();
 
 public slots:
-    void onLogoToggled(bool v);
+    void onBullseyeToggled(bool v);
+    void onTeapotToggled(bool v);
+    void onDragonToggled(bool v);
+    void onBuddhaToggled(bool v);
+    void onBunnyToggled(bool v);
+    void onUserTriangleSoupToggled(bool v);
+
+    void onBunnyPCToggled(bool v);
+    void onUserPCToggled(bool v);
+
+    void onClearLog();
 
 private:
     Ui::MainWindow* ui;
 
     PTELog          _log;
     GLWidget*       _glWidget;
-    QtLogo*         _logo;
-    TriangleSoup    _triangleSoup;
+
+    QtLogo*         _bullseyeTS;
+    TriangleSoup    _buddhaTS;
+    TriangleSoup    _bunnyTS;
+    TriangleSoup    _dragonTS;
+    TriangleSoup    _teapotTS;
+    TriangleSoup    _userTS;
 };
 
 #endif // MAINWINDOW_H
