@@ -43,6 +43,7 @@
 
 #include <QGLWidget>
 #include "Drawables/drawableintrfc.h"
+#include "Utils/abstractlog.h"
 
 class QtLogo;
 
@@ -85,8 +86,13 @@ private:
     int xRot;
     int yRot;
     int zRot;
+
     QPoint lastPos;
     QColor _bgColor;
+
+public:
+    AbstractLog*    _log;
+    bool            _verbose;
 };
 
 #endif

@@ -13,10 +13,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     _glWidget = new GLWidget;
+    ui->_openglLayout->addWidget(_glWidget);
 
     _log.connectPTE(ui->_logPTE);
+    _logGlWidget.connectPTE(ui->_glWidgetLogPTE);
     _log.display("OpenGL Sandbox");
-    ui->_openglLayout->addWidget(_glWidget);
+    _logGlWidget.display("GLWidget log");
+    _glWidget->_log = &_logGlWidget;
 
     signalConnection();
     loadData();
@@ -39,6 +42,7 @@ void MainWindow::signalConnection(){
     QObject::connect(ui->_clearLogBtn,SIGNAL(clicked()),this,SLOT(onClearLog()));
 
     QObject::connect(ui->_bgColorBtn,SIGNAL(clicked()),this,SLOT(onChangeBGColor()));
+    QObject::connect(ui->_verboseChBx,SIGNAL(toggled(bool)),this,SLOT(onChangeVerbosity(bool)));
 }
 
 void MainWindow::loadData(){
@@ -154,3 +158,11 @@ void MainWindow::onChangeBGColor(){
     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
 }
+
+ void MainWindow::onChangeVerbosity(bool v){
+     try{
+         _glWidget->_verbose = v;
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }

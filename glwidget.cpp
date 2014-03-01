@@ -53,7 +53,9 @@
 
 GLWidget::GLWidget(QWidget *parent):
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
-    _bgColor(qRgb(112,128,144))
+    _bgColor(qRgb(112,128,144)),
+    _log(nullptr),
+    _verbose(false)
 {
     xRot = 0;
     yRot = 0;
@@ -95,6 +97,7 @@ void GLWidget::forceRepaint(){
 }
 
 void GLWidget::setBackgroundColor(QColor bgColor){
+    SECURE_LOG(_log,"Set background color");
     _bgColor = bgColor;
     qglClearColor(_bgColor);
 }
@@ -135,8 +138,8 @@ void GLWidget::setZRotation(int angle)
         updateGL();
     }
 }
-void GLWidget::initializeGL()
-{
+void GLWidget::initializeGL(){
+    SECURE_LOG(_log,"Initialize GL");
     qglClearColor(_bgColor);
 
     glEnable(GL_DEPTH_TEST);
@@ -145,11 +148,11 @@ void GLWidget::initializeGL()
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_MULTISAMPLE);
-    static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
+    static GLfloat lightPosition[4] = { 3, 4.0, -2.0, 1.0 };
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 }
-void GLWidget::paintGL()
-{
+void GLWidget::paintGL(){
+    SECURE_LOG_VERBOSE(_log,"Paint GL");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glTranslatef(0.0, 0.0, -10.0);
@@ -159,8 +162,10 @@ void GLWidget::paintGL()
     for(auto dr: _drawableObjects)
         dr->draw();
 }
-void GLWidget::resizeGL(int width, int height)
-{
+void GLWidget::resizeGL(int width, int height){
+    SECURE_LOG(_log,"Resize GL");
+    SECURE_LOG_VAL(_log,"Width",width);
+    SECURE_LOG_VAL(_log,"Height",height);
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
 
@@ -170,15 +175,16 @@ void GLWidget::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
-{
+void GLWidget::mousePressEvent(QMouseEvent *event){
+    SECURE_LOG_VERBOSE(_log,"Mouse pressed");
     lastPos = event->pos();
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    int dx = event->x() - lastPos.x();
-    int dy = event->y() - lastPos.y();
+void GLWidget::mouseMoveEvent(QMouseEvent *event){
+    const int dx = event->x() - lastPos.x();
+    const int dy = event->y() - lastPos.y();
+    SECURE_LOG_VAL_VERBOSE(_log,"Dx",dx);
+    SECURE_LOG_VAL_VERBOSE(_log,"Dy",dy);
 
     if (event->buttons() & Qt::LeftButton) {
         setXRotation(xRot + 8 * dy);

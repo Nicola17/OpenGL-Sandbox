@@ -36,11 +36,13 @@ public slots:
 
     void onClearLog();
     void onChangeBGColor();
+    void onChangeVerbosity(bool v);
 
 private:
     Ui::MainWindow* ui;
 
     PTELog          _log;
+    PTELog          _logGlWidget;
     GLWidget*       _glWidget;
 
     QtLogo*         _bullseyeTS;
@@ -51,6 +53,7 @@ private:
     TriangleSoup    _userTS;
 
     QColor          _bgColor;
+
 };
 
 #endif // MAINWINDOW_H
