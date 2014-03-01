@@ -3,13 +3,14 @@
 
 #include <QString>
 #include "Drawables/trianglesoup.h"
+#include "Utils/abstractlog.h"
 
 namespace IO
 {
     class TriangleSoupImporters
     {
     public:
-        static void read(const QString& filename, TriangleSoup& triSoup);
+        static void readObj(const QString& filename, TriangleSoup& triSoup, AbstractLog* log = nullptr);
 
     };
 }

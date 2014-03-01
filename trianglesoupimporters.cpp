@@ -6,11 +6,14 @@
 namespace IO
 {
 
-    void TriangleSoupImporters::read(const QString& filename, TriangleSoup& triSoup){
+    void TriangleSoupImporters::readObj(const QString& filename, TriangleSoup& triSoup, AbstractLog* log){
+        SECURE_LOG_VAL(log,"Read OBJ",filename.toStdString());
         typedef TriangleSoup::vector_type vector_type;
         std::string line;
         std::ifstream infile;
         infile.open(filename.toStdString(), std::fstream::in);
+        if(!infile.is_open())
+            throw std::runtime_error("Unable to open the obj file");
 
         std::vector<vector_type> vertices;
         std::vector<vector_type> normals;
@@ -45,7 +48,8 @@ namespace IO
             }
 
         }
-
+        SECURE_LOG_VAL(log,"v",vertices.size());
+        SECURE_LOG_VAL(log,"vn",normals.size());
         infile.close();
     }
 

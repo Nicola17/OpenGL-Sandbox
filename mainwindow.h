@@ -21,9 +21,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void signalConnection();
-    void loadData();
+    void readSettings();
+    void writeSettings();
 
 public slots:
+    void onLoadData();
     void onBullseyeToggled(bool v);
     void onTeapotToggled(bool v);
     void onDragonToggled(bool v);
@@ -37,6 +39,7 @@ public slots:
     void onClearLog();
     void onChangeBGColor();
     void onChangeVerbosity(bool v);
+    void onChangeDefaultDataDir();
 
 private:
     Ui::MainWindow* ui;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
-    <height>478</height>
+    <width>719</width>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -177,10 +177,43 @@
     <item row="3" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item alignment="Qt::AlignVCenter">
-       <widget class="QTabWidget" name="_optionsWdg">
+       <widget class="QTabWidget" name="Generalsettings">
         <property name="currentIndex">
          <number>0</number>
         </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>General settings</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_9">
+          <item row="0" column="0">
+           <widget class="QGroupBox" name="groupBox_2">
+            <property name="title">
+             <string>Default data</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_10">
+             <item row="0" column="0">
+              <widget class="QLineEdit" name="_defaultDataDirLE"/>
+             </item>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="_changeDefaultDataDirBtn">
+               <property name="text">
+                <string>Change dir</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QPushButton" name="_reloadDataBtn">
+               <property name="text">
+                <string>Reload</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
         <widget class="QWidget" name="Rendering">
          <attribute name="title">
           <string>Rendering</string>
@@ -201,6 +234,19 @@
         </widget>
        </widget>
       </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
    </layout>
@@ -210,7 +256,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>614</width>
+     <width>719</width>
      <height>21</height>
     </rect>
    </property>

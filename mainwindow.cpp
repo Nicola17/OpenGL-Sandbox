@@ -3,6 +3,9 @@
 #include <QtWidgets>
 #include <QMessageBox>
 #include <QColorDialog>
+#include <QDir>
+#include <QFileDialog>
+#include <QSettings>
 
 #include "glwidget.h"
 #include "trianglesoupimporters.h"
@@ -22,11 +25,13 @@ MainWindow::MainWindow(QWidget *parent) :
     _glWidget->_log = &_logGlWidget;
 
     signalConnection();
-    loadData();
+    readSettings();
+    onLoadData();
 }
 
 MainWindow::~MainWindow()
 {
+    writeSettings();
     delete ui;
 }
 
@@ -43,12 +48,30 @@ void MainWindow::signalConnection(){
 
     QObject::connect(ui->_bgColorBtn,SIGNAL(clicked()),this,SLOT(onChangeBGColor()));
     QObject::connect(ui->_verboseChBx,SIGNAL(toggled(bool)),this,SLOT(onChangeVerbosity(bool)));
+    QObject::connect(ui->_reloadDataBtn,SIGNAL(clicked()),this,SLOT(onLoadData()));
+    QObject::connect(ui->_changeDefaultDataDirBtn,SIGNAL(clicked()),this,SLOT(onChangeDefaultDataDir()));
 }
 
-void MainWindow::loadData(){
-    _bullseyeTS = new QtLogo(this);
+void MainWindow::readSettings(){
+    _log.display("Read settings");
+    QSettings settings("Nicola17","OpenGL Sandbox");
+    ui->_defaultDataDirLE->setText(settings.value("Default dir","").toString());
+}
+void MainWindow::writeSettings(){
+    _log.display("Write settings");
+    QSettings settings("Nicola17","OpenGL Sandbox");
+    settings.setValue("Default dir",ui->_defaultDataDirLE->text());
+}
 
-    IO::TriangleSoupImporters::read("F:\\Development\\OpenGLSandbox\\sources\\teapot.obj",_teapotTS);
+void MainWindow::onLoadData(){
+    _log.display("Load data");
+    QString defaultDir = ui->_defaultDataDirLE->text();
+    _bullseyeTS = new QtLogo(this);
+    try{
+        IO::TriangleSoupImporters::readObj(defaultDir+"\\teapot.obj",_teapotTS,&_log);
+    }
+    catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
+    catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
 }
 
 void MainWindow::onBullseyeToggled(bool v){
@@ -161,7 +184,18 @@ void MainWindow::onChangeBGColor(){
 
  void MainWindow::onChangeVerbosity(bool v){
      try{
+         _log.display("Change verbosity");
          _glWidget->_verbose = v;
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }
+
+ void MainWindow::onChangeDefaultDataDir(){
+     try{
+         _log.display("Change default dir");
+        QString defaultDir = QFileDialog::getExistingDirectory(this,"Open default directory",ui->_defaultDataDirLE->text());
+        ui->_defaultDataDirLE->setText(defaultDir);
      }
      catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
      catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
