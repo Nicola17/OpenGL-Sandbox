@@ -222,12 +222,28 @@ void MainWindow::onChangeBGColor(){
          close();
      }else if (e->key() == Qt::Key_W){
         SECURE_LOG_VERBOSE(&_log,"Move ahead");
+        _glWidget->moveCamera(QVector3D(0,0,1));
+        _glWidget->forceRepaint();
      }else if (e->key() == Qt::Key_S){
         SECURE_LOG_VERBOSE(&_log,"Move backwards");
+        _glWidget->moveCamera(QVector3D(0,0,-1));
+        _glWidget->forceRepaint();
      }else if (e->key() == Qt::Key_D){
         SECURE_LOG_VERBOSE(&_log,"Shift right");
+        _glWidget->moveCamera(QVector3D(1,0,0));
+        _glWidget->forceRepaint();
      }else if (e->key() == Qt::Key_A){
         SECURE_LOG_VERBOSE(&_log,"Shift left");
+        _glWidget->moveCamera(QVector3D(-1,0,0));
+        _glWidget->forceRepaint();
+     }else if (e->key() == Qt::Key_R){
+        SECURE_LOG_VERBOSE(&_log,"Shift up");
+        _glWidget->moveCamera(QVector3D(0,1,0));
+        _glWidget->forceRepaint();
+     }else if (e->key() == Qt::Key_F){
+        SECURE_LOG_VERBOSE(&_log,"Shift down");
+        _glWidget->moveCamera(QVector3D(0,-1,0));
+        _glWidget->forceRepaint();
      }else
          QWidget::keyPressEvent(e);
  }

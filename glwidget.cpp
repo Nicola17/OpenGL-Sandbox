@@ -40,7 +40,7 @@
 
 #include <QtWidgets>
 #include <QtOpenGL>
-
+#include <QMatrix4x4>
 #include <math.h>
 
 #include "glwidget.h"
@@ -55,11 +55,14 @@ GLWidget::GLWidget(QWidget *parent):
     QGLWidget(QGLFormat(QGL::SampleBuffers), parent),
     _bgColor(qRgb(112,128,144)),
     _log(nullptr),
-    _verbose(false)
+    _verbose(false),
+    _rotationSpeed(0.05),
+    _cameraSpeed(0.1),
+    _cameraPosition(0,0,-10)
 {
-    xRot = 0;
-    yRot = 0;
-    zRot = 0;
+    _xRot = 0;
+    _yRot = 0;
+    _zRot = 0;
 }
 
 GLWidget::~GLWidget()
@@ -101,6 +104,16 @@ void GLWidget::setBackgroundColor(QColor bgColor){
     _bgColor = bgColor;
     qglClearColor(_bgColor);
 }
+void GLWidget::viewMatrix(QMatrix4x4& vm){
+    vm.rotate(_xRot * _rotationSpeed, 1.0, 0.0, 0.0);
+    vm.rotate(_yRot * _rotationSpeed, 0.0, 1.0, 0.0);
+    vm.rotate(_zRot * _rotationSpeed, 0.0, 0.0, 1.0);
+    vm.translate(_cameraPosition);
+}
+ void GLWidget::moveCamera(QVector3D& t){
+    _cameraPosition += t*_cameraSpeed;
+}
+
 static void qNormalizeAngle(int &angle)
 {
     while (angle < 0)
@@ -112,8 +125,8 @@ static void qNormalizeAngle(int &angle)
 void GLWidget::setXRotation(int angle)
 {
     qNormalizeAngle(angle);
-    if (angle != xRot) {
-        xRot = angle;
+    if (angle != _xRot) {
+        _xRot = angle;
         emit xRotationChanged(angle);
         updateGL();
     }
@@ -122,8 +135,8 @@ void GLWidget::setXRotation(int angle)
 void GLWidget::setYRotation(int angle)
 {
     qNormalizeAngle(angle);
-    if (angle != yRot) {
-        yRot = angle;
+    if (angle != _yRot) {
+        _yRot = angle;
         emit yRotationChanged(angle);
         updateGL();
     }
@@ -132,8 +145,8 @@ void GLWidget::setYRotation(int angle)
 void GLWidget::setZRotation(int angle)
 {
     qNormalizeAngle(angle);
-    if (angle != zRot) {
-        zRot = angle;
+    if (angle != _zRot) {
+        _zRot = angle;
         emit zRotationChanged(angle);
         updateGL();
     }
@@ -154,13 +167,21 @@ void GLWidget::initializeGL(){
 void GLWidget::paintGL(){
     SECURE_LOG_VERBOSE(_log,"Paint GL");
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    glTranslatef(0.0, 0.0, -10.0);
-    glRotatef(xRot / 16.0, 1.0, 0.0, 0.0);
-    glRotatef(yRot / 16.0, 0.0, 1.0, 0.0);
-    glRotatef(zRot / 16.0, 0.0, 0.0, 1.0);
-    for(auto dr: _drawableObjects)
+
+    glMatrixMode(GL_MODELVIEW);
+    QMatrix4x4 view;
+    viewMatrix(view);
+    for(auto dr: _drawableObjects){
+        QMatrix4x4 model;
+        QMatrix4x4 rtrx(view*model);
+        glLoadMatrixf(rtrx.constData());
         dr->draw();
+    }
+    glMatrixMode(GL_PROJECTION);
+    QMatrix4x4 projectMatrix;
+    projectMatrix.perspective(20,1,1,150);
+    //projectMatrix.ortho(-1., +1., -1., +1., 1.0, 150.0);
+    glLoadMatrixf(projectMatrix.constData());
 }
 void GLWidget::resizeGL(int width, int height){
     SECURE_LOG(_log,"Resize GL");
@@ -168,11 +189,6 @@ void GLWidget::resizeGL(int width, int height){
     SECURE_LOG_VAL(_log,"Height",height);
     int side = qMin(width, height);
     glViewport((width - side) / 2, (height - side) / 2, side, side);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(-1., +1., -1., +1., 4.0, 15.0);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event){
@@ -187,11 +203,11 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event){
     SECURE_LOG_VAL_VERBOSE(_log,"Dy",dy);
 
     if (event->buttons() & Qt::LeftButton) {
-        setXRotation(xRot + 8 * dy);
-        setYRotation(yRot + 8 * dx);
+        setXRotation(_xRot + 8 * dy);
+        setYRotation(_yRot + 8 * dx);
     } else if (event->buttons() & Qt::RightButton) {
-        setXRotation(xRot + 8 * dy);
-        setZRotation(zRot + 8 * dx);
+        setXRotation(_xRot + 8 * dy);
+        setZRotation(_zRot + 8 * dx);
     }
     lastPos = event->pos();
 }

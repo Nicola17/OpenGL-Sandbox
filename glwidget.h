@@ -42,6 +42,7 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include <QMatrix4x4>
 #include "Drawables/drawableintrfc.h"
 #include "Utils/abstractlog.h"
 
@@ -63,6 +64,10 @@ public:
     void clear();
     void forceRepaint();
     void setBackgroundColor(QColor bgColor);
+    void viewMatrix(QMatrix4x4& v);
+
+    void moveCamera(QVector3D& t);
+    const QVector3D& cameraPosition()const{return _cameraPosition;}
 
 public slots:
     void setXRotation(int angle);
@@ -84,9 +89,13 @@ protected:
 
 private:
     std::vector<const DrawableIntrfc*>_drawableObjects;
-    int xRot;
-    int yRot;
-    int zRot;
+    int _xRot;
+    int _yRot;
+    int _zRot;
+    float _rotationSpeed;
+
+    float _cameraSpeed;
+    QVector3D _cameraPosition;
 
     QPoint lastPos;
     QColor _bgColor;
