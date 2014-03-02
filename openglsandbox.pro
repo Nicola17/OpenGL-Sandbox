@@ -2,7 +2,6 @@ VPATH += shared
 INCLUDEPATH += shared
 
 HEADERS       = glwidget.h \
-                window.h \
                 qtlogo.h \
                 mainwindow.h \
     drawableintrfc.h \
@@ -14,7 +13,6 @@ HEADERS       = glwidget.h \
     Utils/ptelog.h
 SOURCES       = glwidget.cpp \
                 main.cpp \
-                window.cpp \
                 mainwindow.cpp \
     Drawables/trianglesoup.cpp \
     Drawables/qtlogo.cpp \
