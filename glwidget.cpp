@@ -195,3 +195,6 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event){
     }
     lastPos = event->pos();
 }
+void GLWidget::keyPressEvent(QKeyEvent *){
+    SECURE_LOG_VERBOSE(_log,"Keyboard key pressed");
+}

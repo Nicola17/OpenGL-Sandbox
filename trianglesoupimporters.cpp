@@ -6,7 +6,7 @@
 namespace IO
 {
 
-    void TriangleSoupImporters::readObj(const QString& filename, TriangleSoup& triSoup, AbstractLog* log){
+    void TriangleSoupImporters::readObj(const QString& filename, TriangleSoup& triSoup, float scale, AbstractLog* log){
         SECURE_LOG_VAL(log,"Read OBJ",filename.toStdString());
         typedef TriangleSoup::vector_type vector_type;
         std::string line;
@@ -21,15 +21,15 @@ namespace IO
         while(!infile.eof()){
             std::getline(infile,line);
 
-            QString qline(QString::fromStdString(line));
+            QString qline(QString::fromStdString(line).simplified());
             QStringList tokens = qline.split(" ");
 
             if(tokens.size() == 0)
                 continue;
             if(tokens[0].compare("v") == 0){
-                vertices.push_back(vector_type(tokens[2].toFloat()/30,tokens[3].toFloat()/30,tokens[4].toFloat()/30));
+                vertices.push_back(vector_type(tokens[1].toFloat()*scale,tokens[2].toFloat()*scale,tokens[3].toFloat()*scale));
             }else if(tokens[0].compare("vn") == 0){
-                normals.push_back(vector_type(tokens[2].toFloat(),tokens[3].toFloat(),tokens[4].toFloat()));
+                normals.push_back(vector_type(tokens[1].toFloat(),tokens[2].toFloat(),tokens[3].toFloat()));
             }else if(tokens[0].compare("f") == 0){
                 if(tokens.size() != 4)
                     throw std::runtime_error("Invalid obj file");
@@ -40,7 +40,7 @@ namespace IO
                     QStringList subTokens = tokens[t].split("/");
                     vertexIdx.push_back(subTokens[0].toUInt());
                     //TODO
-                    normalIdx.push_back(subTokens[2].toUInt());
+                    //normalIdx.push_back(subTokens[2].toUInt());
                 }
                 triSoup.addTriangle(vertices[vertexIdx[0]-1],vertices[vertexIdx[1]-1],vertices[vertexIdx[2]-1]);
                 //triSoup.addTriangle(vertices[vertexIdx[0]-1],vertices[vertexIdx[1]-1],vertices[vertexIdx[2]-1],

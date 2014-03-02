@@ -10,7 +10,7 @@ namespace IO
     class TriangleSoupImporters
     {
     public:
-        static void readObj(const QString& filename, TriangleSoup& triSoup, AbstractLog* log = nullptr);
+        static void readObj(const QString& filename, TriangleSoup& triSoup, float scale = 1.f, AbstractLog* log = nullptr);
 
     };
 }

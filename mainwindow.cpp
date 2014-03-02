@@ -68,7 +68,22 @@ void MainWindow::onLoadData(){
     QString defaultDir = ui->_defaultDataDirLE->text();
     _bullseyeTS = new QtLogo(this);
     try{
-        IO::TriangleSoupImporters::readObj(defaultDir+"\\teapot.obj",_teapotTS,&_log);
+        IO::TriangleSoupImporters::readObj(defaultDir+"\\teapot.obj",_teapotTS,1/30.,&_log);
+    }
+    catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
+    catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
+    try{
+        IO::TriangleSoupImporters::readObj(defaultDir+"\\bunny.obj",_bunnyTS,10,&_log);
+    }
+    catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
+    catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
+    try{
+        IO::TriangleSoupImporters::readObj(defaultDir+"\\dragon.obj",_dragonTS,10,&_log);
+    }
+    catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
+    catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
+    try{
+        IO::TriangleSoupImporters::readObj(defaultDir+"\\buddha.obj",_buddhaTS,10,&_log);
     }
     catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
     catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
@@ -186,6 +201,7 @@ void MainWindow::onChangeBGColor(){
      try{
          _log.display("Change verbosity");
          _glWidget->_verbose = v;
+         _verbose = v;
      }
      catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
      catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
@@ -193,10 +209,25 @@ void MainWindow::onChangeBGColor(){
 
  void MainWindow::onChangeDefaultDataDir(){
      try{
-         _log.display("Change default dir");
+        _log.display("Change default dir");
         QString defaultDir = QFileDialog::getExistingDirectory(this,"Open default directory",ui->_defaultDataDirLE->text());
         ui->_defaultDataDirLE->setText(defaultDir);
      }
      catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
      catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }
+
+ void MainWindow::keyPressEvent(QKeyEvent *e){
+     if (e->key() == Qt::Key_Escape){
+         close();
+     }else if (e->key() == Qt::Key_W){
+        SECURE_LOG_VERBOSE(&_log,"Move ahead");
+     }else if (e->key() == Qt::Key_S){
+        SECURE_LOG_VERBOSE(&_log,"Move backwards");
+     }else if (e->key() == Qt::Key_D){
+        SECURE_LOG_VERBOSE(&_log,"Shift right");
+     }else if (e->key() == Qt::Key_A){
+        SECURE_LOG_VERBOSE(&_log,"Shift left");
+     }else
+         QWidget::keyPressEvent(e);
  }

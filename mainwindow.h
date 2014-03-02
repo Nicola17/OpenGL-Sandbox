@@ -41,6 +41,9 @@ public slots:
     void onChangeVerbosity(bool v);
     void onChangeDefaultDataDir();
 
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
 private:
     Ui::MainWindow* ui;
 
@@ -56,6 +59,7 @@ private:
     TriangleSoup    _userTS;
 
     QColor          _bgColor;
+    bool            _verbose;
 
 };
 
