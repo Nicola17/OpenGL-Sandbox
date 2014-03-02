@@ -67,6 +67,8 @@ void MainWindow::onLoadData(){
     _log.display("Load data");
     QString defaultDir = ui->_defaultDataDirLE->text();
     _bullseyeTS = new QtLogo(this);
+
+    _glWidget->addDrawableObject(&_origin);
     try{
         IO::TriangleSoupImporters::readObj(defaultDir+"\\teapot.obj",_teapotTS,1/30.,&_log);
     }

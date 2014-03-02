@@ -3,7 +3,7 @@
 
 class DrawableIntrfc{
 public:
-    ~DrawableIntrfc(){}
+    virtual ~DrawableIntrfc(){}
     virtual void draw()const=0;
 };
 

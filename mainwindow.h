@@ -6,6 +6,7 @@
 #include "Drawables/qtlogo.h"
 #include "Drawables/trianglesoup.h"
 #include "Utils/ptelog.h"
+#include "Drawables/pointdrw.h"
 
 class GLWidget;
 
@@ -57,6 +58,7 @@ private:
     TriangleSoup    _dragonTS;
     TriangleSoup    _teapotTS;
     TriangleSoup    _userTS;
+    PointDrw        _origin;
 
     QColor          _bgColor;
     bool            _verbose;
