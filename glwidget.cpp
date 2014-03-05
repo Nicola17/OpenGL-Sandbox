@@ -45,6 +45,7 @@
 
 #include "glwidget.h"
 #include "Drawables/qtlogo.h"
+#include "Drawables/coordsystemaxes.h"
 
 #ifndef GL_MULTISAMPLE
 #define GL_MULTISAMPLE  0x809D
@@ -189,6 +190,8 @@ void GLWidget::paintGL(){
         glLoadMatrixf(rtrx.constData());
         dr->draw();
     }
+    CoordSystemAxes coord;
+    coord.draw();
 
     glMatrixMode(GL_PROJECTION);
     QMatrix4x4 projection;

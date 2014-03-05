@@ -12,7 +12,8 @@ HEADERS       = glwidget.h \
     Utils/abstractlog.h \
     Utils/ptelog.h \
     Drawables/pointdrw.h \
-    Drawables/linedrw.h
+    Drawables/linedrw.h \
+    Drawables/coordsystemaxes.h
 SOURCES       = glwidget.cpp \
                 main.cpp \
                 mainwindow.cpp \
@@ -21,7 +22,8 @@ SOURCES       = glwidget.cpp \
     trianglesoupimporters.cpp \
     Utils/ptelog.cpp \
     Drawables/pointdrw.cpp \
-    Drawables/linedrw.cpp
+    Drawables/linedrw.cpp \
+    Drawables/coordsystemaxes.cpp
 QT           += opengl widgets
 
 # install
