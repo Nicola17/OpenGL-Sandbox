@@ -11,11 +11,13 @@ PointDrw::PointDrw():
 
 void PointDrw::draw()const{
     glPointSize(_size);
+    glEnable(GL_COLOR_MATERIAL);
     glColor3f(_color.red(), _color.green(), _color.blue());
     glBegin(GL_POINT_SMOOTH);
     glBegin(GL_POINTS);
     glVertex3f(_point.x(),_point.y(),_point.z());
     glEnd();
     glEnd();
+    glDisable(GL_COLOR_MATERIAL);
 }
 
