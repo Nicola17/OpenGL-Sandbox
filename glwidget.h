@@ -65,6 +65,8 @@ public:
     void forceRepaint();
     void setBackgroundColor(QColor bgColor);
     void viewMatrix(QMatrix4x4& v);
+    void projectionMatrix(QMatrix4x4& p);
+    void setLight();
 
     void moveCamera(QVector3D& t);
     const QVector3D& cameraPosition()const{return _cameraPosition;}

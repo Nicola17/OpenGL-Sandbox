@@ -69,6 +69,7 @@ void MainWindow::onLoadData(){
     _bullseyeTS = new QtLogo(this);
 
     _glWidget->addDrawableObject(&_origin);
+    _glWidget->addDrawableObject(&_lineDrw);
     try{
         IO::TriangleSoupImporters::readObj(defaultDir+"\\teapot.obj",_teapotTS,1/30.,&_log);
     }

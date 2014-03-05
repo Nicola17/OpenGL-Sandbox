@@ -56,9 +56,9 @@ GLWidget::GLWidget(QWidget *parent):
     _bgColor(qRgb(112,128,144)),
     _log(nullptr),
     _verbose(false),
-    _rotationSpeed(0.05),
+    _rotationSpeed(0.0625),
     _cameraSpeed(0.1),
-    _cameraPosition(0,0,-10)
+    _cameraPosition(0,0,0)
 {
     _xRot = 0;
     _yRot = 0;
@@ -105,10 +105,14 @@ void GLWidget::setBackgroundColor(QColor bgColor){
     qglClearColor(_bgColor);
 }
 void GLWidget::viewMatrix(QMatrix4x4& vm){
+    vm.translate(QVector3D(0,0,-10));
     vm.rotate(_xRot * _rotationSpeed, 1.0, 0.0, 0.0);
     vm.rotate(_yRot * _rotationSpeed, 0.0, 1.0, 0.0);
     vm.rotate(_zRot * _rotationSpeed, 0.0, 0.0, 1.0);
     vm.translate(_cameraPosition);
+}
+void GLWidget::projectionMatrix(QMatrix4x4& p){
+    p.perspective(10,1,1,150);
 }
  void GLWidget::moveCamera(QVector3D& t){
     _cameraPosition += t*_cameraSpeed;
@@ -156,13 +160,21 @@ void GLWidget::initializeGL(){
     qglClearColor(_bgColor);
 
     glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
     glEnable(GL_MULTISAMPLE);
-    static GLfloat lightPosition[4] = { 3, 4.0, -2.0, 1.0 };
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+}
+
+void GLWidget::setLight(){
+    glEnable(GL_LIGHT0);
+    QMatrix4x4 view;
+    viewMatrix(view);
+
+    QVector4D lightPosition(0, 4.0, 2.0, 1.0);
+    //lightPosition = view * lightPosition;
+    GLfloat lp[4] = { lightPosition.x(), lightPosition.y(), lightPosition.z(), lightPosition.w()};
+
+    glLightfv(GL_LIGHT0, GL_POSITION, lp);
 }
 void GLWidget::paintGL(){
     SECURE_LOG_VERBOSE(_log,"Paint GL");
@@ -177,11 +189,13 @@ void GLWidget::paintGL(){
         glLoadMatrixf(rtrx.constData());
         dr->draw();
     }
+
     glMatrixMode(GL_PROJECTION);
-    QMatrix4x4 projectMatrix;
-    projectMatrix.perspective(20,1,1,150);
-    //projectMatrix.ortho(-1., +1., -1., +1., 1.0, 150.0);
-    glLoadMatrixf(projectMatrix.constData());
+    QMatrix4x4 projection;
+    projectionMatrix(projection);
+    glLoadMatrixf(projection.constData());
+
+    setLight();
 }
 void GLWidget::resizeGL(int width, int height){
     SECURE_LOG(_log,"Resize GL");
