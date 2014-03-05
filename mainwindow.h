@@ -7,6 +7,7 @@
 #include "Drawables/trianglesoup.h"
 #include "Utils/ptelog.h"
 #include "Drawables/pointdrw.h"
+#include "Drawables/linedrw.h"
 
 class GLWidget;
 
@@ -59,6 +60,7 @@ private:
     TriangleSoup    _teapotTS;
     TriangleSoup    _userTS;
     PointDrw        _origin;
+    LineDrw         _lineDrw;
 
     QColor          _bgColor;
     bool            _verbose;
