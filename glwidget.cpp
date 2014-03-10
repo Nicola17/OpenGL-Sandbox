@@ -60,12 +60,11 @@ GLWidget::GLWidget(QWidget *parent):
     _rotationSpeed(0.0625),
     _cameraSpeed(0.1),
     _cameraPosition(0,0,0),
-    _cameraRadius(10.)
-{
-    _xRot = 0;
-    _yRot = 0;
-    _zRot = 0;
-}
+    _cameraRadius(10.),
+    _xRot(0),
+    _yRot(0),
+    _zRot(0)
+{}
 
 GLWidget::~GLWidget()
 {
@@ -157,6 +156,17 @@ void GLWidget::setZRotation(int angle)
         updateGL();
     }
 }
+
+void GLWidget::onResetCameraPosition(){
+    SECURE_LOG(_log,"Reset camera position");
+    _cameraPosition = QVector3D(0.f,0.f,0.f);
+    _cameraRadius = 10.f;
+    _xRot = 0;
+    _yRot = 0;
+    _zRot = 0;
+    forceRepaint();
+}
+
 void GLWidget::initializeGL(){
     SECURE_LOG(_log,"Initialize GL");
     qglClearColor(_bgColor);
@@ -240,7 +250,6 @@ void GLWidget::wheelEvent(QWheelEvent* event){
     SECURE_LOG_VAL_VERBOSE(_log,"Delta",delta);
     _cameraRadius += delta;
     forceRepaint();
-
 }
 
 

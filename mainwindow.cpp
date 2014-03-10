@@ -58,6 +58,8 @@ void MainWindow::signalConnection(){
     QObject::connect(ui->_cameraCenterSizeDSpBx,SIGNAL(valueChanged(double)),this,SLOT(onChangeCameraCenterSize(double)));
     QObject::connect(ui->_cameraMovementSpeedDSpBx,SIGNAL(valueChanged(double)),this,SLOT(onChangeCameraMovementSpeed(double)));
     QObject::connect(ui->_cameraRotationSpeedDSpBx,SIGNAL(valueChanged(double)),this,SLOT(onChangeCameraRotationSpeed(double)));
+
+    QObject::connect(ui->_resetCameraBtn,SIGNAL(clicked()),_glWidget,SLOT(onResetCameraPosition()));
 }
 
 void MainWindow::readSettings(){

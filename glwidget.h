@@ -85,6 +85,7 @@ public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);
     void setZRotation(int angle);
+    void onResetCameraPosition();
 
 signals:
     void xRotationChanged(int angle);
