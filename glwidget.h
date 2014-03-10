@@ -71,6 +71,16 @@ public:
     void moveCamera(QVector3D& t);
     const QVector3D& cameraPosition()const{return _cameraPosition;}
 
+    float& cameraSpeed(){return _cameraSpeed;}
+    const float& cameraSpeed()const{return _cameraSpeed;}
+    float& cameraRotationSpeed(){return _rotationSpeed;}
+    const float& cameraRotationSpeed()const{return _rotationSpeed;}
+
+    bool& showAxes(){return _showAxes;}
+    const bool& showAxes()const{return _showAxes;}
+    float& axesLength(){return _axesLength;}
+    const float& axesLength()const{return _axesLength;}
+
 public slots:
     void setXRotation(int angle);
     void setYRotation(int angle);
@@ -85,9 +95,9 @@ protected:
     void initializeGL();
     void paintGL();
     void resizeGL(int width, int height);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void keyPressEvent(QKeyEvent *);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
+    void wheelEvent (QWheelEvent* event);
 
 private:
     std::vector<const DrawableIntrfc*>_drawableObjects;
@@ -97,10 +107,14 @@ private:
     float _rotationSpeed;
 
     float _cameraSpeed;
+    float _cameraRadius;
     QVector3D _cameraPosition;
 
     QPoint lastPos;
     QColor _bgColor;
+
+    bool _showAxes;
+    float _axesLength;
 
 public:
     AbstractLog*    _log;

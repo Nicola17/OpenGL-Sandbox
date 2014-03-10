@@ -44,12 +44,20 @@ void MainWindow::signalConnection(){
     QObject::connect(ui->_bunnyPCChBx,SIGNAL(toggled(bool)),this,SLOT(onBunnyPCToggled(bool)));
     QObject::connect(ui->_userChBx,SIGNAL(toggled(bool)),this,SLOT(onUserTriangleSoupToggled(bool)));
     QObject::connect(ui->_userPCChBx,SIGNAL(toggled(bool)),this,SLOT(onUserPCToggled(bool)));
-    QObject::connect(ui->_clearLogBtn,SIGNAL(clicked()),this,SLOT(onClearLog()));
+    QObject::connect(ui->_clearLogBtn,SIGNAL(clicked()),this,SLOT(onShowAxes(bool)));
 
     QObject::connect(ui->_bgColorBtn,SIGNAL(clicked()),this,SLOT(onChangeBGColor()));
     QObject::connect(ui->_verboseChBx,SIGNAL(toggled(bool)),this,SLOT(onChangeVerbosity(bool)));
     QObject::connect(ui->_reloadDataBtn,SIGNAL(clicked()),this,SLOT(onLoadData()));
     QObject::connect(ui->_changeDefaultDataDirBtn,SIGNAL(clicked()),this,SLOT(onChangeDefaultDataDir()));
+
+    QObject::connect(ui->_showAxesChkBx,SIGNAL(toggled(bool)),this,SLOT(onShowAxes(bool)));
+    QObject::connect(ui->_axesLengthDSpBx,SIGNAL(valueChanged(double)),this,SLOT(onChangeAxesLength(double)));
+
+    QObject::connect(ui->_showCameraCenterChkBx,SIGNAL(toggled(bool)),this,SLOT(onShowCameraCenter(bool)));
+    QObject::connect(ui->_cameraCenterSizeDSpBx,SIGNAL(valueChanged(double)),this,SLOT(onChangeCameraCenterSize(double)));
+    QObject::connect(ui->_cameraMovementSpeedDSpBx,SIGNAL(valueChanged(double)),this,SLOT(onChangeCameraMovementSpeed(double)));
+    QObject::connect(ui->_cameraRotationSpeedDSpBx,SIGNAL(valueChanged(double)),this,SLOT(onChangeCameraRotationSpeed(double)));
 }
 
 void MainWindow::readSettings(){
@@ -68,8 +76,6 @@ void MainWindow::onLoadData(){
     QString defaultDir = ui->_defaultDataDirLE->text();
     _bullseyeTS = new QtLogo(this);
 
-    _glWidget->addDrawableObject(&_origin);
-    _glWidget->addDrawableObject(&_lineDrw);
     try{
         IO::TriangleSoupImporters::readObj(defaultDir+"\\teapot.obj",_teapotTS,1/30.,&_log);
     }
@@ -249,4 +255,54 @@ void MainWindow::onChangeBGColor(){
         _glWidget->forceRepaint();
      }else
          QWidget::keyPressEvent(e);
+ }
+
+ void MainWindow::onChangeCameraMovementSpeed(double speed){
+     try{
+        SECURE_LOG_VAL_VERBOSE(&_log,"Camera speed", speed);
+        _glWidget->cameraSpeed() = speed;
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }
+ void MainWindow::onChangeCameraRotationSpeed(double speed){
+     try{
+        SECURE_LOG_VAL_VERBOSE(&_log,"Camera rotation speed", speed);
+        _glWidget->cameraRotationSpeed() = speed;
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }
+ void MainWindow::onChangeCameraCenterSize(double size){
+     try{
+        SECURE_LOG_VAL_VERBOSE(&_log,"Camera center size", size);
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }
+ void MainWindow::onShowCameraCenter(bool v){
+     try{
+         SECURE_LOG_VAL_VERBOSE(&_log,"Show camera center", (v?"ON":"OFF"));
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }
+
+ void MainWindow::onChangeAxesLength(double length){
+     try{
+         SECURE_LOG_VAL_VERBOSE(&_log,"Axes length", length);
+         _glWidget->axesLength() = length;
+         _glWidget->forceRepaint();
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+ }
+ void MainWindow::onShowAxes(bool v){
+     try{
+         SECURE_LOG_VAL_VERBOSE(&_log,"Show axes", (v?"ON":"OFF"));
+         _glWidget->showAxes() = v;
+         _glWidget->forceRepaint();
+     }
+     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
+     catch(std::logic_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
  }

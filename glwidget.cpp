@@ -59,7 +59,8 @@ GLWidget::GLWidget(QWidget *parent):
     _verbose(false),
     _rotationSpeed(0.0625),
     _cameraSpeed(0.1),
-    _cameraPosition(0,0,0)
+    _cameraPosition(0,0,0),
+    _cameraRadius(10.)
 {
     _xRot = 0;
     _yRot = 0;
@@ -106,7 +107,7 @@ void GLWidget::setBackgroundColor(QColor bgColor){
     qglClearColor(_bgColor);
 }
 void GLWidget::viewMatrix(QMatrix4x4& vm){
-    vm.translate(QVector3D(0,0,-10));
+    vm.translate(QVector3D(0,0,-_cameraRadius));
     vm.rotate(_xRot * _rotationSpeed, 1.0, 0.0, 0.0);
     vm.rotate(_yRot * _rotationSpeed, 0.0, 1.0, 0.0);
     vm.rotate(_zRot * _rotationSpeed, 0.0, 0.0, 1.0);
@@ -190,8 +191,12 @@ void GLWidget::paintGL(){
         glLoadMatrixf(rtrx.constData());
         dr->draw();
     }
-    CoordSystemAxes coord;
-    coord.draw();
+
+    if(_showAxes){
+        CoordSystemAxes coord;
+        coord.length() = _axesLength;
+        coord.draw();
+    }
 
     glMatrixMode(GL_PROJECTION);
     QMatrix4x4 projection;
@@ -228,6 +233,14 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event){
     }
     lastPos = event->pos();
 }
-void GLWidget::keyPressEvent(QKeyEvent *){
-    SECURE_LOG_VERBOSE(_log,"Keyboard key pressed");
+
+void GLWidget::wheelEvent(QWheelEvent* event){
+    SECURE_LOG_VERBOSE(_log,"Wheel event");
+    float delta = event->delta()/60;
+    SECURE_LOG_VAL_VERBOSE(_log,"Delta",delta);
+    _cameraRadius += delta;
+    forceRepaint();
+
 }
+
+

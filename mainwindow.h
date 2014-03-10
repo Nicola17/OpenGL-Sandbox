@@ -43,6 +43,16 @@ public slots:
     void onChangeVerbosity(bool v);
     void onChangeDefaultDataDir();
 
+    void onChangeCameraMovementSpeed(double speed);
+    void onChangeCameraRotationSpeed(double speed);
+    void onChangeCameraCenterSize(double size);
+    void onShowCameraCenter(bool v);
+
+    void onChangeAxesLength(double length);
+    void onShowAxes(bool v);
+
+
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
@@ -59,8 +69,6 @@ private:
     TriangleSoup    _dragonTS;
     TriangleSoup    _teapotTS;
     TriangleSoup    _userTS;
-    PointDrw        _origin;
-    LineDrw         _lineDrw;
 
     QColor          _bgColor;
     bool            _verbose;
