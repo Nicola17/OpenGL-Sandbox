@@ -41,3 +41,7 @@ contains(QT_CONFIG, opengles.) {
 
 FORMS += \
     mainwindow.ui
+
+OTHER_FILES += \
+    VertexShaders/firsttest.vert \
+    FragmentShaders/firsttest.frag

@@ -5,6 +5,7 @@
 #include "drawableintrfc.h"
 #include <vector>
 #include <QGLWidget>
+#include <QColor>
 
 class TriangleSoup: public DrawableIntrfc
 {
@@ -20,7 +21,7 @@ public:
     void addTriangle(const vector_type& v0,const vector_type& v1,const vector_type& v2,const vector_type& n0,const vector_type& n1,const vector_type& n2);
 
 private:
-    GLfloat _color[4];
+    QColor _color;
     vector_list_type _vertices;
     vector_list_type _normals;
 };
