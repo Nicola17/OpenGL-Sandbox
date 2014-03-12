@@ -113,7 +113,14 @@ void GLWidget::viewMatrix(QMatrix4x4& vm){
     vm.translate(_cameraPosition);
 }
 void GLWidget::projectionMatrix(QMatrix4x4& p){
-    p.perspective(10,1,1,150);
+    p.perspective(10,float(width())/height(),1,150);
+}
+
+void GLWidget::resizeGL(int width, int height){
+    SECURE_LOG(_log,"Resize GL");
+    SECURE_LOG_VAL(_log,"Width",width);
+    SECURE_LOG_VAL(_log,"Height",height);
+    glViewport(0,0,width,height);
 }
  void GLWidget::moveCamera(QVector3D& t){
     _cameraPosition += t*_cameraSpeed;
@@ -214,13 +221,6 @@ void GLWidget::paintGL(){
     glLoadMatrixf(projection.constData());
 
     setLight();
-}
-void GLWidget::resizeGL(int width, int height){
-    SECURE_LOG(_log,"Resize GL");
-    SECURE_LOG_VAL(_log,"Width",width);
-    SECURE_LOG_VAL(_log,"Height",height);
-    int side = qMin(width, height);
-    glViewport((width - side) / 2, (height - side) / 2, side, side);
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event){
