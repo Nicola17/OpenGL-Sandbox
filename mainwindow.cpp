@@ -26,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     signalConnection();
     readSettings();
-    onLoadData();
 }
 
 MainWindow::~MainWindow()
@@ -80,21 +79,25 @@ void MainWindow::onLoadData(){
 
     try{
         IO::TriangleSoupImporters::readObj(defaultDir+"\\teapot.obj",_teapotTS,1/30.,&_log);
+        _teapotTS.initialize();
     }
     catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
     catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
     try{
         IO::TriangleSoupImporters::readObj(defaultDir+"\\bunny.obj",_bunnyTS,10,&_log);
+        _bunnyTS.initialize();
     }
     catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
     catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
     try{
         IO::TriangleSoupImporters::readObj(defaultDir+"\\dragon.obj",_dragonTS,10,&_log);
+        _dragonTS.initialize();
     }
     catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
     catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
     try{
         IO::TriangleSoupImporters::readObj(defaultDir+"\\buddha.obj",_buddhaTS,10,&_log);
+        _buddhaTS.initialize();
     }
     catch(std::runtime_error& ex){SECURE_LOG_VAL(&_log,"Runtime error",ex.what())}
     catch(std::logic_error& ex){SECURE_LOG_VAL(&_log,"Logic error",ex.what())}
