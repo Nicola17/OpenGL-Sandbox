@@ -13,7 +13,8 @@ HEADERS       = glwidget.h \
     Utils/ptelog.h \
     Drawables/pointdrw.h \
     Drawables/linedrw.h \
-    Drawables/coordsystemaxes.h
+    Drawables/coordsystemaxes.h \
+    Drawables/drawabletrimesh.h
 SOURCES       = glwidget.cpp \
                 main.cpp \
                 mainwindow.cpp \
@@ -23,7 +24,8 @@ SOURCES       = glwidget.cpp \
     Utils/ptelog.cpp \
     Drawables/pointdrw.cpp \
     Drawables/linedrw.cpp \
-    Drawables/coordsystemaxes.cpp
+    Drawables/coordsystemaxes.cpp \
+    Drawables/drawabletrimesh.cpp
 QT           += opengl widgets
 
 # install
@@ -45,3 +47,12 @@ FORMS += \
 OTHER_FILES += \
     VertexShaders/firsttest.vert \
     FragmentShaders/firsttest.frag
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/release/ -lsurface_mesh
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/debug/ -lsurface_mesh
+
+INCLUDEPATH += $$PWD/../../../Sorgenti Librerie/surface_mesh/src/surface_mesh
+DEPENDPATH += $$PWD/../../../Sorgenti Librerie/surface_mesh/src/surface_mesh
+
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/release/surface_mesh.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/debug/surface_mesh.lib
