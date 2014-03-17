@@ -48,11 +48,11 @@ OTHER_FILES += \
     VertexShaders/firsttest.vert \
     FragmentShaders/firsttest.frag
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/release/ -lsurface_mesh
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/debug/ -lsurface_mesh
+win32:CONFIG(release, debug|release): LIBS += -L"$(SURFACE_MESH_LIB_DIR)/release/" -lsurface_mesh
+else:win32:CONFIG(debug, debug|release): LIBS += -L"$(SURFACE_MESH_LIB_DIR)/debug/" -lsurface_mesh
 
-INCLUDEPATH += $$PWD/../../../Sorgenti Librerie/surface_mesh/src/surface_mesh
-DEPENDPATH += $$PWD/../../../Sorgenti Librerie/surface_mesh/src/surface_mesh
+INCLUDEPATH += "$(SURFACE_MESH_SRC_DIR)"
+DEPENDPATH += "$(SURFACE_MESH_SRC_DIR)"
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/release/surface_mesh.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../Sorgenti Librerie/surface_mesh/msvc11_x64/debug/surface_mesh.lib
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += "$(SURFACE_MESH_LIB_DIR)/release/surface_mesh.lib"
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += "$(SURFACE_MESH_LIB_DIR)/debug/surface_mesh.lib"

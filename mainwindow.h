@@ -8,6 +8,9 @@
 #include "Utils/ptelog.h"
 #include "Drawables/pointdrw.h"
 #include "Drawables/linedrw.h"
+#include "Drawables/drawabletrimesh.h"
+
+
 
 class GLWidget;
 
@@ -69,6 +72,8 @@ private:
     TriangleSoup    _dragonTS;
     TriangleSoup    _teapotTS;
     TriangleSoup    _userTS;
+
+    DrawableTriMesh _teapotMesh;
 
     QColor          _bgColor;
     bool            _verbose;

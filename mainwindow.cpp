@@ -9,6 +9,7 @@
 
 #include "glwidget.h"
 #include "trianglesoupimporters.h"
+#include "surface_mesh/Surface_mesh.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
