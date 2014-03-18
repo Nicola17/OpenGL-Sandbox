@@ -9,7 +9,7 @@
 
 #include "glwidget.h"
 #include "trianglesoupimporters.h"
-#include "surface_mesh/Surface_mesh.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -122,13 +122,15 @@ void MainWindow::onBullseyeToggled(bool v){
 void MainWindow::onTeapotToggled(bool v){
     try{
         if(v){
+            QString filename = ui->_defaultDataDirLE->text()+"\\teapot.obj";
+            IO::importDrawableTriMesh(_teapotMesh,filename.toStdString(),&_log);
             _log.display("Show teapot");
-            _glWidget->addDrawableObject(&_teapotTS);
-            _glWidget->forceRepaint();
+            //_glWidget->addDrawableObject(&_teapotTS);
+            //_glWidget->forceRepaint();
         }else{
             _log.display("Hide teapot");
-            _glWidget->removeDrawableObject(&_teapotTS);
-            _glWidget->forceRepaint();
+            //_glWidget->removeDrawableObject(&_teapotTS);
+            //_glWidget->forceRepaint();
         }
     }
     catch(std::runtime_error& ex){QMessageBox::critical(this,tr("Critical error"),ex.what());}
